@@ -60,7 +60,7 @@ async function CrudShowcase() {
       ) : (
         <p>You have no posts yet.</p>
       )}
-      Drizzle + PlanetScale {duration}ms
+      Drizzle + PlanetScale (us-east-1 Virginia) {duration}ms
       <CreatePost />
     </div>
   );
