@@ -2,8 +2,9 @@ import Link from "next/link";
 
 import { CreatePost } from "@/app/_components/create-post";
 import { api } from "@/trpc/server";
+import { connection } from "@/server/db";
 
-export default async function Home() {
+export default async () => {
   const hello = await api.post.hello.query({ text: "from tRPC" });
 
   return (
@@ -46,21 +47,25 @@ export default async function Home() {
       </div>
     </main>
   );
-}
+};
 
 async function CrudShowcase() {
-  const start = Date.now();
-  const latestPost = await api.post.getLatest.query();
-  const duration = Date.now() - start;
+  const startDbjs = Date.now();
+  const latestPost = await connection.execute(
+    "select * from `t3-app_post` order by `created_at` desc limit 1",
+  );
+  const durationDbjs = Date.now() - startDbjs;
 
   return (
     <div className="w-full max-w-xs">
       {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
+        <p className="truncate">
+          Your most recent post: {JSON.stringify(latestPost.rows.at(0)?.name)}
+        </p>
       ) : (
         <p>You have no posts yet.</p>
       )}
-      Drizzle + PlanetScale {duration}ms
+      Database.js Raw {durationDbjs}ms
       <CreatePost />
     </div>
   );

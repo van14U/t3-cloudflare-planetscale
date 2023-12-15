@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@planetscale/database':
-    specifier: ^1.11.0
-    version: 1.11.0
+    specifier: ^1.13.0
+    version: 1.13.0
   '@t3-oss/env-nextjs':
     specifier: ^0.7.1
     version: 0.7.1(typescript@5.3.3)(zod@3.22.4)
@@ -28,7 +28,7 @@ dependencies:
     version: 10.44.1
   drizzle-orm:
     specifier: ^0.28.5
-    version: 0.28.5(@cloudflare/workers-types@4.20231121.0)(@planetscale/database@1.11.0)(mysql2@3.6.5)
+    version: 0.28.5(@cloudflare/workers-types@4.20231121.0)(@planetscale/database@1.13.0)(mysql2@3.6.5)
   next:
     specifier: ^14.0.3
     version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -926,8 +926,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@planetscale/database@1.11.0:
-    resolution: {integrity: sha512-aWbU+D/IRHoDE9975y+Q4c+EwwAWxCPwFId+N1AhQVFXzbeJMkj6KN2iQtoi03elcLMRdfT+V3i9Z4WRw+/oIA==}
+  /@planetscale/database@1.13.0:
+    resolution: {integrity: sha512-sb9tUoF+Po55o+3PRHZVeH8XzUIABKBKcnq6oBUa+p/2uau/E2EXhnUPXmkC/x7oB6ILBqmqTL6dPP5Dn6d6iA==}
     engines: {node: '>=16'}
     dev: false
 
@@ -1992,7 +1992,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.5(@cloudflare/workers-types@4.20231121.0)(@planetscale/database@1.11.0)(mysql2@3.6.5):
+  /drizzle-orm@0.28.5(@cloudflare/workers-types@4.20231121.0)(@planetscale/database@1.13.0)(mysql2@3.6.5):
     resolution: {integrity: sha512-6r6Iw4c38NAmW6TiKH3TUpGUQ1YdlEoLJOQptn8XPx3Z63+vFNKfAiANqrIiYZiMjKR9+NYAL219nFrmo1duXA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -2055,7 +2055,7 @@ packages:
         optional: true
     dependencies:
       '@cloudflare/workers-types': 4.20231121.0
-      '@planetscale/database': 1.11.0
+      '@planetscale/database': 1.13.0
       mysql2: 3.6.5
     dev: false
 
