@@ -2,7 +2,20 @@ import Link from "next/link";
 
 import { CreatePost } from "@/app/_components/create-post";
 import { api } from "@/trpc/server";
-import { connection } from "@/server/db";
+
+import { Client } from "@planetscale/database";
+
+import { env } from "@/env";
+
+const connection = new Client({
+  url: env.DATABASE_URL,
+  fetch: (url, init) => {
+    if (init) {
+      delete init.cache;
+    }
+    return fetch(url, init);
+  },
+}).connection();
 
 export default async () => {
   const hello = await api.post.hello.query({ text: "from tRPC" });
