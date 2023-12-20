@@ -8,8 +8,8 @@ import { revalidateTag } from "next/cache";
 async function addPost(data: FormData) {
   "use server"
   const title = data.get("title") as string;
-  console.log("title", title);
-  // await api.post.create.mutate({ name: title });
+  // console.log("title", title);
+  await api.post.create.mutate({ name: title });
   revalidateTag("post.getLatest");
 }
 
