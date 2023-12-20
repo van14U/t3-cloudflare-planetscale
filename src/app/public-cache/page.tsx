@@ -1,7 +1,9 @@
 import Link from "next/link";
 
-import { CreatePost } from "@/app/_components/create-post";
+// import { CreatePost } from "@/app/_components/create-post";
 import { api } from "@/trpc/server";
+import { unstable_cache } from "next/cache";
+import { CreatePost } from "../_components/create-post-rsc";
 
 export default async function Home() {
   const hello = await api.post.hello.query({ text: "from tRPC" });
@@ -48,9 +50,17 @@ export default async function Home() {
   );
 }
 
+const getCachedLatestPost = unstable_cache(
+  () => api.post.getLatest.query(),
+  undefined,
+  {
+    tags: ["post.getLatest"],
+  },
+);
+
 async function CrudShowcase() {
   const start = Date.now();
-  const latestPost = await api.post.getLatest.query();
+  const latestPost = await getCachedLatestPost();
   const duration = Date.now() - start;
 
   return (
@@ -61,7 +71,7 @@ async function CrudShowcase() {
         <p>You have no posts yet.</p>
       )}
       Drizzle + PlanetScale (us-east-1 Virginia) {duration}ms
-      <div>no cache</div>
+      <div>unstable_cache</div>
       <CreatePost />
     </div>
   );
