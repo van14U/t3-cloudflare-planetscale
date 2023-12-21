@@ -70,7 +70,7 @@ const getCachedTime2min = unstable_cache(
   () => Promise.resolve(new Date()),
   undefined,
   {
-    tags: ["time"],
+    tags: ["time-2min"],
     revalidate: 120,
   },
 );
