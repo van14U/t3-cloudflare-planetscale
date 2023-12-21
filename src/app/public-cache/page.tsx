@@ -71,7 +71,7 @@ const getCachedTime2min = unstable_cache(
   undefined,
   {
     tags: ["time"],
-    revalidate: 180000,
+    revalidate: 120,
   },
 );
 
