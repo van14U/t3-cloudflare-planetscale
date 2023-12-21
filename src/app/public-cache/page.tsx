@@ -58,13 +58,34 @@ const getCachedLatestPost = unstable_cache(
   },
 );
 
+const getCachedTimeInfinity = unstable_cache(
+  () => Promise.resolve(new Date()),
+  undefined,
+  {
+    tags: ["time"],
+  },
+);
+
+const getCachedTime2min = unstable_cache(
+  () => Promise.resolve(new Date()),
+  undefined,
+  {
+    tags: ["time"],
+    revalidate: 180000,
+  },
+);
+
 async function CrudShowcase() {
+  const cachedInfTime = await getCachedTimeInfinity();
+  const cached2minTime = await getCachedTime2min();
   const start = Date.now();
   const latestPost = await getCachedLatestPost();
   const duration = Date.now() - start;
 
   return (
     <div className="w-full max-w-xs">
+      <p>Time inf: {cachedInfTime.toString()}</p>
+      <p>Time 2min: {cached2minTime.toString()}</p>
       {latestPost ? (
         <p className="truncate">Your most recent post: {latestPost.name}</p>
       ) : (
