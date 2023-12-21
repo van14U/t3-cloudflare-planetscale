@@ -60,17 +60,17 @@ const getCachedLatestPost = unstable_cache(
 
 const getCachedTimeInfinity = unstable_cache(
   () => Promise.resolve(new Date()),
-  undefined,
+  ["inf"],
   {
-    tags: ["time"],
+    tags: ["inf"],
   },
 );
 
 const getCachedTime2min = unstable_cache(
   () => Promise.resolve(new Date()),
-  undefined,
+  ["2min"],
   {
-    tags: ["time-2min"],
+    tags: ["2min"],
     revalidate: 120,
   },
 );
