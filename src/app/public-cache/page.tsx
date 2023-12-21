@@ -5,6 +5,8 @@ import { api } from "@/trpc/server";
 import { unstable_cache } from "next/cache";
 import { CreatePost } from "../_components/create-post-rsc";
 
+export const runtime = "edge";
+
 export default async function Home() {
   const hello = await api.post.hello.query({ text: "from tRPC" });
 
@@ -58,34 +60,35 @@ const getCachedLatestPost = unstable_cache(
   },
 );
 
-const getCachedTimeInfinity = unstable_cache(
-  () => Promise.resolve(new Date()),
-  ["inf"],
-  {
-    tags: ["inf"],
-  },
-);
+// const getCachedTimeInfinity = unstable_cache(
+//   () => Promise.resolve(new Date()),
+//   ["inf"],
+//   {
+//     tags: ["inf"],
+//   },
+// );
 
-const getCachedTime2min = unstable_cache(
-  () => Promise.resolve(new Date()),
-  ["2min"],
-  {
-    tags: ["2min"],
-    revalidate: 120,
-  },
-);
+// const getCachedTime2min = unstable_cache(
+//   () => Promise.resolve(new Date()),
+//   ["2min"],
+//   {
+//     tags: ["2min"],
+//     revalidate: 120,
+//   },
+// );
 
 async function CrudShowcase() {
-  const cachedInfTime = await getCachedTimeInfinity();
-  const cached2minTime = await getCachedTime2min();
+  // const cachedInfTime = await getCachedTimeInfinity();
+  // const cached2minTime = await getCachedTime2min();
   const start = Date.now();
   const latestPost = await getCachedLatestPost();
   const duration = Date.now() - start;
 
   return (
     <div className="w-full max-w-xs">
-      <p>Time inf: {cachedInfTime.toString()}</p>
-      <p>Time 2min: {cached2minTime.toString()}</p>
+      <p>{new Date().toISOString()}</p>
+      {/* <p>Time inf: {cachedInfTime.toString()}</p> */}
+      {/* <p>Time 2min: {cached2minTime.toString()}</p> */}
       {latestPost ? (
         <p className="truncate">Your most recent post: {latestPost.name}</p>
       ) : (

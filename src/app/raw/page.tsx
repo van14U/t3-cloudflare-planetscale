@@ -7,6 +7,8 @@ import { Client } from "@planetscale/database";
 
 import { env } from "@/env";
 
+export const runtime = "edge";
+
 const connection = new Client({
   url: env.DATABASE_URL,
   fetch: (url, init) => {
