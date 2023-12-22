@@ -10,7 +10,7 @@ async function addPost(data: FormData) {
   const title = data.get("title") as string;
   // console.log("title", title);
   await api.post.create.mutate({ name: title });
-  revalidateTag("post.getLatest");
+  revalidateTag("global:post.getLatest");
 }
 
 export function CreatePost() {
