@@ -53,10 +53,10 @@ export default async function Home() {
 }
 
 const getCachedLatestPost = unstable_cache(
-  () => api.post.getLatest.query(),
-  ["post.getLatest"],
+  async () => await api.post.getLatest.query(),
+  ["global:post.getLatest"],
   {
-    tags: ["post.getLatest"],
+    tags: ["global:post.getLatest"],
     revalidate: 30,
   },
 );
