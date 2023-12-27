@@ -54,10 +54,10 @@ export default async function Home() {
 
 const getCachedLatestPost = unstable_cache(
   async () => await api.post.getLatest.query(),
-  ["global:post.getLatest"],
+  ["cf:post.getLatest"],
   {
-    tags: ["global:post.getLatest"],
-    revalidate: 30,
+    tags: ["cf:post.getLatest"],
+    revalidate: 20,
   },
 );
 
@@ -97,7 +97,15 @@ async function CrudShowcase() {
       )}
       Drizzle + PlanetScale (us-east-1 Virginia) {duration}ms
       <div>unstable_cache</div>
+      <SuspenseCached />
       <CreatePost />
     </div>
   );
+}
+
+async function SuspenseCached() {
+  const start = Date.now();
+  await getCachedLatestPost();
+  const duration = Date.now() - start;
+  return <div>2nd req {duration}ms</div>;
 }
