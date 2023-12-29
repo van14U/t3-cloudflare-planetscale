@@ -61,26 +61,7 @@ const getCachedLatestPost = unstable_cache(
   },
 );
 
-// const getCachedTimeInfinity = unstable_cache(
-//   () => Promise.resolve(new Date()),
-//   ["inf"],
-//   {
-//     tags: ["inf"],
-//   },
-// );
-
-// const getCachedTime2min = unstable_cache(
-//   () => Promise.resolve(new Date()),
-//   ["2min"],
-//   {
-//     tags: ["2min"],
-//     revalidate: 120,
-//   },
-// );
-
 async function CrudShowcase() {
-  // const cachedInfTime = await getCachedTimeInfinity();
-  // const cached2minTime = await getCachedTime2min();
   const start = Date.now();
   const latestPost = await getCachedLatestPost();
   const duration = Date.now() - start;
@@ -88,8 +69,6 @@ async function CrudShowcase() {
   return (
     <div className="w-full max-w-xs">
       <p>{new Date().toISOString()}</p>
-      {/* <p>Time inf: {cachedInfTime.toString()}</p> */}
-      {/* <p>Time 2min: {cached2minTime.toString()}</p> */}
       {latestPost ? (
         <p className="truncate">Your most recent post: {latestPost.name}</p>
       ) : (
@@ -97,15 +76,7 @@ async function CrudShowcase() {
       )}
       Drizzle + PlanetScale (us-east-1 Virginia) {duration}ms
       <div>unstable_cache</div>
-      <SuspenseCached />
       <CreatePost />
     </div>
   );
-}
-
-async function SuspenseCached() {
-  const start = Date.now();
-  await getCachedLatestPost();
-  const duration = Date.now() - start;
-  return <div>2nd req {duration}ms</div>;
 }
