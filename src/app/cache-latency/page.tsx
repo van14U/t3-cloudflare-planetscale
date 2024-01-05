@@ -4,30 +4,11 @@ import { Suspense } from "react";
 export const runtime = "edge";
 
 const keys = {
-  NoReval: "time:undefined",
-  Reval10Sec: "time:10sec",
-  Reval20SecWithLatency: "latency:time:20sec",
+  Reval20SecWithLatency: "cf:latency:time:20sec",
 } as const;
 
 const LATENCY = 200;
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const getCachedTimeNoReval = unstable_cache(
-  () => Promise.resolve(new Date().toISOString()),
-  [keys.NoReval],
-  {
-    tags: [keys.NoReval],
-  },
-);
-
-const getCachedTime10secReval = unstable_cache(
-  () => Promise.resolve(new Date().toISOString()),
-  [keys.Reval10Sec],
-  {
-    tags: [keys.Reval10Sec],
-    revalidate: 10,
-  },
-);
 
 const getCachedTime20secWithLatency = unstable_cache(
   async () => {
@@ -41,7 +22,7 @@ const getCachedTime20secWithLatency = unstable_cache(
   },
 );
 
-function RevalidateButton(props: { tagKey: keyof typeof keys }) {
+function RevalidateButton(props: { tagKey: typeof keys[keyof typeof keys] }) {
   async function testRevalidation() {
     "use server";
     revalidateTag(props.tagKey);
@@ -108,18 +89,6 @@ export default function Home() {
         })}`}
       </p>
       <h2 className="mt-4 text-lg font-semibold">
-        Latency for key <Chip text={keys.NoReval} />
-      </h2>
-      <Suspense fallback="Loading...">
-        <CachedResults fn={getCachedTimeNoReval} />
-      </Suspense>
-      <h2 className="mt-4 text-lg font-semibold">
-        Latency for key <Chip text={keys.Reval10Sec} />
-      </h2>
-      <Suspense fallback="Loading...">
-        <CachedResults fn={getCachedTime10secReval} revalidate={10} />
-      </Suspense>
-      <h2 className="mt-4 text-lg font-semibold">
         Latency for key <Chip text={keys.Reval20SecWithLatency} />
       </h2>
       <Suspense fallback="Loading...">
@@ -132,7 +101,7 @@ export default function Home() {
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
       <div className="flex gap-4">
         {Object.values(keys).map((key) => (
-          <RevalidateButton key={key} tagKey={key as keyof typeof keys} />
+          <RevalidateButton key={key} tagKey={key} />
         ))}
       </div>
     </main>
