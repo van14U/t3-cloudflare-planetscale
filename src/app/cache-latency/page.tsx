@@ -1,10 +1,10 @@
 import { revalidateTag } from "next/cache";
 import { Suspense } from "react";
 import {
-  OLD_LATENCY,
   getOldCachedTime20secWithLatency,
   oldKeys,
 } from "../_queries/cached";
+import { CachedResults } from "../_components/cache-utils";
 
 export const runtime = "edge";
 
@@ -32,40 +32,6 @@ function Chip(props: { text: string }) {
   );
 }
 
-async function CachedResults(props: {
-  fn: () => Promise<string>;
-  revalidate?: number;
-  latency?: boolean;
-}) {
-  const start = Date.now();
-  const time = await props.fn();
-  const duration = Date.now() - start;
-  const estTime = new Date(time).toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  });
-
-  return (
-    <ul className="list-disc pl-5">
-      {props.latency && (
-        <li>
-          Has additional simulated latency for{" "}
-          <Chip text={`${OLD_LATENCY}ms`} />
-        </li>
-      )}
-      <li>
-        Revalidate for{" "}
-        <Chip
-          text={props.revalidate ? `${props.revalidate}sec` : "undefined"}
-        />
-      </li>
-      <li>
-        Cache Access Latency <Chip text={`${duration}ms`} />
-      </li>
-      <li>EST Value {estTime}</li>
-    </ul>
-  );
-}
-
 export default function Home() {
   const now = new Date();
   return (
@@ -84,7 +50,6 @@ export default function Home() {
         <CachedResults
           fn={getOldCachedTime20secWithLatency}
           revalidate={20}
-          latency
         />
       </Suspense>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
