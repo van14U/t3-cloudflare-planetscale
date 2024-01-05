@@ -18,11 +18,10 @@ export const oldKeys = {
 } as const;
 
 export const OLD_LATENCY = 200;
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getOldCachedTime20secWithLatency = unstable_cache(
   async () => {
-    await wait(LATENCY);
+    await waitFor(LATENCY);
     return new Date().toISOString();
   },
   [oldKeys.Reval20SecWithLatency],
