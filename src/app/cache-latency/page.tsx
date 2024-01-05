@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { Suspense } from "react";
 import {
-  getOldCachedTime20secWithLatency,
+  whyIsThisNotRevalidating,
   oldKeys,
 } from "../_queries/cached";
 import { CachedResults } from "../_components/cache-utils";
@@ -44,12 +44,12 @@ export default function Home() {
         })}`}
       </p>
       <h2 className="mt-4 text-lg font-semibold">
-        Latency for key <Chip text={oldKeys.Reval20SecWithLatency} />
+        Latency for key <Chip text={oldKeys.WhyIsThisNotRevalidating} />
       </h2>
       <Suspense fallback="Loading...">
         <CachedResults
-          fn={getOldCachedTime20secWithLatency}
-          revalidate={20}
+          fn={whyIsThisNotRevalidating}
+          revalidate={10}
         />
       </Suspense>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>

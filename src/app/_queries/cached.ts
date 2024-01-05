@@ -14,20 +14,20 @@ export const LATENCY = 1000;
 export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const oldKeys = {
-  Reval20SecWithLatency: "cf:latency:time:20sec",
+  WhyIsThisNotRevalidating: "why-is-this-not-revalidating",
 } as const;
 
 export const OLD_LATENCY = 200;
 
-export const getOldCachedTime20secWithLatency = unstable_cache(
+export const whyIsThisNotRevalidating = unstable_cache(
   async () => {
     await waitFor(LATENCY);
     return new Date().toISOString();
   },
-  [oldKeys.Reval20SecWithLatency],
+  [oldKeys.WhyIsThisNotRevalidating],
   {
-    tags: [oldKeys.Reval20SecWithLatency],
-    revalidate: 20,
+    tags: [oldKeys.WhyIsThisNotRevalidating],
+    revalidate: 10,
   },
 );
 
