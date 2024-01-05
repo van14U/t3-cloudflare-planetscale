@@ -1,28 +1,16 @@
-import { revalidateTag, unstable_cache } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { Suspense } from "react";
+import {
+  OLD_LATENCY,
+  getOldCachedTime20secWithLatency,
+  oldKeys,
+} from "../_queries/cached";
 
 export const runtime = "edge";
 
-const oldKeys = {
-  Reval20SecWithLatency: "cf:latency:time:20sec",
-} as const;
-
-const LATENCY = 200;
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const getCachedTime20secWithLatency = unstable_cache(
-  async () => {
-    await wait(LATENCY);
-    return new Date().toISOString();
-  },
-  [oldKeys.Reval20SecWithLatency],
-  {
-    tags: [oldKeys.Reval20SecWithLatency],
-    revalidate: 20,
-  },
-);
-
-function RevalidateButton(props: { tagKey: typeof oldKeys[keyof typeof oldKeys] }) {
+function RevalidateButton(props: {
+  tagKey: (typeof oldKeys)[keyof typeof oldKeys];
+}) {
   async function testRevalidation() {
     "use server";
     revalidateTag(props.tagKey);
@@ -60,7 +48,8 @@ async function CachedResults(props: {
     <ul className="list-disc pl-5">
       {props.latency && (
         <li>
-          Has additional simulated latency for <Chip text={`${LATENCY}ms`} />
+          Has additional simulated latency for{" "}
+          <Chip text={`${OLD_LATENCY}ms`} />
         </li>
       )}
       <li>
@@ -93,7 +82,7 @@ export default function Home() {
       </h2>
       <Suspense fallback="Loading...">
         <CachedResults
-          fn={getCachedTime20secWithLatency}
+          fn={getOldCachedTime20secWithLatency}
           revalidate={20}
           latency
         />

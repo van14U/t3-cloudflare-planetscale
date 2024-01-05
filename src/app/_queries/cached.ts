@@ -13,6 +13,26 @@ export type KeyValue = typeof keys[keyof typeof keys]
 export const LATENCY = 1000;
 export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+export const oldKeys = {
+  Reval20SecWithLatency: "cf:latency:time:20sec",
+} as const;
+
+export const OLD_LATENCY = 200;
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const getOldCachedTime20secWithLatency = unstable_cache(
+  async () => {
+    await wait(LATENCY);
+    return new Date().toISOString();
+  },
+  [oldKeys.Reval20SecWithLatency],
+  {
+    tags: [oldKeys.Reval20SecWithLatency],
+    revalidate: 20,
+  },
+);
+
+
 export const getCachedTimeNoReval = unstable_cache(
   async () => {
     return new Date().toISOString();
