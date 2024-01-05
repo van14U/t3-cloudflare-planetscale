@@ -1,5 +1,5 @@
-import { revalidateTag, unstable_cache } from 'next/cache';
-import { Suspense } from 'react';
+import { revalidateTag, unstable_cache } from "next/cache";
+import { Suspense } from "react";
 
 export const runtime = "edge";
 
@@ -30,7 +30,10 @@ const getCachedTime10secReval = unstable_cache(
 );
 
 const getCachedTime20secWithLatency = unstable_cache(
-  () => wait(LATENCY).then(() => new Date().toISOString()),
+  async () => {
+    await wait(LATENCY);
+    return new Date().toISOString();
+  },
   [keys.Reval20SecWithLatency],
   {
     tags: [keys.Reval20SecWithLatency],
@@ -76,17 +79,17 @@ async function CachedResults(props: {
     <ul className="list-disc pl-5">
       {props.latency && (
         <li>
-          Has additional simulated latency for{" "}
-          <Chip text={`${LATENCY}ms`} />
+          Has additional simulated latency for <Chip text={`${LATENCY}ms`} />
         </li>
       )}
       <li>
         Revalidate for{" "}
-        <Chip text={props.revalidate ? `${props.revalidate}sec` : "undefined"} />
+        <Chip
+          text={props.revalidate ? `${props.revalidate}sec` : "undefined"}
+        />
       </li>
       <li>
-        Cache Access Latency{" "}
-        <Chip text={`${duration}ms`} />
+        Cache Access Latency <Chip text={`${duration}ms`} />
       </li>
       <li>EST Value {estTime}</li>
     </ul>
@@ -105,22 +108,19 @@ export default function Home() {
         })}`}
       </p>
       <h2 className="mt-4 text-lg font-semibold">
-        Latency for key{" "}
-        <Chip text={keys.NoReval} />
+        Latency for key <Chip text={keys.NoReval} />
       </h2>
       <Suspense fallback="Loading...">
         <CachedResults fn={getCachedTimeNoReval} />
       </Suspense>
       <h2 className="mt-4 text-lg font-semibold">
-        Latency for key{" "}
-        <Chip text={keys.Reval10Sec} />
+        Latency for key <Chip text={keys.Reval10Sec} />
       </h2>
       <Suspense fallback="Loading...">
         <CachedResults fn={getCachedTime10secReval} revalidate={10} />
       </Suspense>
       <h2 className="mt-4 text-lg font-semibold">
-        Latency for key{" "}
-        <Chip text={keys.Reval20SecWithLatency} />
+        Latency for key <Chip text={keys.Reval20SecWithLatency} />
       </h2>
       <Suspense fallback="Loading...">
         <CachedResults
@@ -138,4 +138,3 @@ export default function Home() {
     </main>
   );
 }
-
