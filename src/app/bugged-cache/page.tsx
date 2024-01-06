@@ -24,7 +24,11 @@ export default function IsBugged() {
           Latency for key <Chip text={keys.Reval10SecWithLatency} />
         </h2>
         <Suspense fallback="loading...">
-          <CachedResults fn={getCachedTime10secWithLatency} revalidate={10} />
+          <CachedResults
+            fn={getCachedTime10secWithLatency}
+            revalidate={10}
+            latency
+          />
         </Suspense>
       </>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
