@@ -19,17 +19,17 @@ export const oldKeys = {
 
 export const OLD_LATENCY = 200;
 
-export const whyIsThisNotRevalidating = unstable_cache(
-  async () => {
-    await waitFor(LATENCY);
-    return new Date().toISOString();
-  },
-  [oldKeys.WhyIsThisNotRevalidating],
-  {
-    tags: [oldKeys.WhyIsThisNotRevalidating],
-    revalidate: 10,
-  },
-);
+// export const whyIsThisNotRevalidating = unstable_cache(
+//   async () => {
+//     await waitFor(LATENCY);
+//     return new Date().toISOString();
+//   },
+//   [oldKeys.WhyIsThisNotRevalidating],
+//   {
+//     tags: [oldKeys.WhyIsThisNotRevalidating],
+//     revalidate: 10,
+//   },
+// );
 
 
 export const getCachedTimeNoReval = unstable_cache(

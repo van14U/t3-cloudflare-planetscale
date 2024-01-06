@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
 import { Suspense } from "react";
 import {
-  whyIsThisNotRevalidating,
+  // whyIsThisNotRevalidating,
   oldKeys,
 } from "../_queries/cached";
 import { CachedResults } from "../_components/cache-utils";
@@ -47,10 +47,10 @@ export default function Home() {
         Latency for key <Chip text={oldKeys.WhyIsThisNotRevalidating} />
       </h2>
       <Suspense fallback="Loading...">
-        <CachedResults
-          fn={whyIsThisNotRevalidating}
-          revalidate={10}
-        />
+        {/* <CachedResults */}
+        {/*   fn={whyIsThisNotRevalidating} */}
+        {/*   revalidate={10} */}
+        {/* /> */}
       </Suspense>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
       <div className="flex gap-4">

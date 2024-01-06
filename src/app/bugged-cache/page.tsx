@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { whyIsThisNotRevalidating, oldKeys } from "../_queries/cached";
+import { keys, getCachedTime10secWithLatency } from "../_queries/cached";
 import {
   CachedResults,
   Chip,
@@ -21,17 +21,19 @@ export default function IsBugged() {
       </p>
       <>
         <h2 className="mt-4 text-lg font-semibold">
-          Latency for key <Chip text={oldKeys.WhyIsThisNotRevalidating} />
+          Latency for key <Chip text={keys.Reval10SecWithLatency} />
         </h2>
-        <Suspense fallback="Loading...">
-          <CachedResults fn={whyIsThisNotRevalidating} revalidate={10} />
+        <Suspense fallback="loading...">
+          <CachedResults fn={getCachedTime10secWithLatency} revalidate={10} />
         </Suspense>
       </>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
       <div className="flex gap-4">
-        {Object.values(oldKeys).map((key) => (
-          <RevalidateButton key={key} tagKey={key} />
-        ))}
+        {Object.values(keys)
+          .filter((k) => k === "tag:withLatency:time:10sec")
+          .map((key) => (
+            <RevalidateButton key={key} tagKey={key} />
+          ))}
       </div>
     </main>
   );
