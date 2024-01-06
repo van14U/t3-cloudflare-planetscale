@@ -1,7 +1,7 @@
 import { revalidateTag } from "next/cache";
-import { LATENCY, type KeyValue } from "../_queries/cached";
+import { LATENCY } from "../_queries/cached";
 
-export function RevalidateButton(props: { tagKey: KeyValue }) {
+export function RevalidateButton(props: { tagKey: string }) {
   async function testRevalidation() {
     "use server";
     revalidateTag(props.tagKey);
