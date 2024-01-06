@@ -30,6 +30,11 @@ export default function IsBugged() {
             latency
           />
         </Suspense>
+        <CachedResults
+          fn={getCachedTime10secWithLatency}
+          revalidate={10}
+          latency
+        />
       </>
       <h2 className="mt-4 text-lg font-semibold">Revalidation</h2>
       <div className="flex gap-4">
